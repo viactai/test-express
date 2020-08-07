@@ -10,9 +10,14 @@ pipeline {
     
   stages {
   
+    stage('Clean Previous') {
+      steps {
+        sh 'npm cache clean'
+      }
+    }
     stage('Install dependencies') {
       steps {
-        sh 'sudo npm install'
+        sh 'npm install'
       }
     }
 
