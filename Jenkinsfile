@@ -1,33 +1,31 @@
 pipeline {
-    agent any
-    stages {
-        stage('Check Branch') {
-            steps {
-                script {
-                        sh 'docker build -t react-api --no-cache .'
-                }
-            }
-        }
-        stage('tag') {
-            steps {
-                script {
-                        sh 'docker tag react-api 172.18.0.1:5000/viact-api:prod'
-                }
-            }
-        }
-        stage('push') {
-            steps {
-                script {
-                        sh 'docker push 172.18.0.1:5000/viact-api:prod'
-                }
-            }
-        }
-        stage('replace old') {
-            steps {
-                script {
-                        sh 'docker rmi -f react-api 172.18.0.1:5000/viact-api:prod'
-                }
-            }
-        }
+  agent any
+    
+  tools {nodejs "node"}
+
+  environment {
+    APP_ENV = 'development'
+    PORT = '5001'
+  }
+    
+  stages {
+  
+    stage('Install dependencies') {
+      steps {
+        sh 'npm install'
+      }
     }
+
+    stage('Install build') {
+      steps {
+        sh 'npm run build'
+      }
+    }
+     
+    stage('Deploy & Run') {
+      steps {
+         sh 'npm start'
+      }
+    }      
+  }
 }
