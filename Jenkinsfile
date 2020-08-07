@@ -9,12 +9,7 @@ pipeline {
   }
     
   stages {
-  
-    stage('Clean Previous') {
-      steps {
-        sh 'npm cache clean'
-      }
-    }
+
     stage('Install dependencies') {
       steps {
         sh 'npm install'
