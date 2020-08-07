@@ -1,28 +1,31 @@
 pipeline {
-  agent any
-    
-  environment {
-    APP_ENV = 'development'
-    PORT = '5001'
-  }
-    
-  stages {
-    stage('Install dependencies') {
-      steps {
-        sh 'npm install'
+   agent { 
+       docker {
+           image 'node:latest'
+       }
+   }
+   stages {
+      stage('Install Dependencies') {
+         steps {
+            sh 'npm -v' // sanity check
+         }
       }
-    }
-
-    stage('Install build') {
-      steps {
-        sh 'npm run build'
+      stage('Install dependencies') {
+        steps {
+          sh 'npm install'
+        }
       }
-    }
-     
-    stage('Deploy & Run') {
-      steps {
-         sh 'npm start'
+      
+      stage('Install build') {
+        steps {
+          sh 'npm run build'
+        }
       }
-    }      
-  }
+       
+      stage('Deploy & Run') {
+        steps {
+           sh 'npm start'
+        }
+      } 
+   }
 }
