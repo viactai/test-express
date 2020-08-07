@@ -2,7 +2,7 @@ pipeline {
    agent { 
        docker {
            image 'node:latest'
-           args '-p 3000:3000' 
+           args '-p 3000:3000 npm start' 
        }
    }
    stages {
@@ -25,7 +25,7 @@ pipeline {
        
       stage('Deploy & Run') {
         steps {
-           sh 'npm start &'
+           sh 'npm start'
         }
       } 
    }
